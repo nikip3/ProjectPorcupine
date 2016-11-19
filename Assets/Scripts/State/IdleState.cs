@@ -33,13 +33,14 @@ namespace ProjectPorcupine.State
             timeSpentIdle += deltaTime;
             if (timeSpentIdle >= totalIdleTime)
             {
-                Tile[] neighbors = character.CurrTile.GetNeighbours();
-                Tile endTile = neighbors[int.Parse(Math.Truncate(Random.value * 4).ToString())];
-                List<Tile> path = Pathfinder.FindPathToTile(character.CurrTile, endTile);
+                //TO-DO: Limit the neighbours array to walkable tiles only.
+                Tile[] neighbours = character.CurrTile.GetNeighbours();
+                Tile endTile = neighbours[int.Parse(Math.Truncate(Random.value * 4).ToString())];
 
                 if (endTile.MovementCost != 0)
                 {
                     // See if the desired tile is walkable, then go there if we can.
+                    List<Tile> path = Pathfinder.FindPathToTile(character.CurrTile, endTile);
                     character.SetState(new MoveState(character, Pathfinder.GoalTileEvaluator(endTile, true), path));
                 }
                 else
